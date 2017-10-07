@@ -85,17 +85,17 @@ void printTitle(void)
 void fishAnimation(void)
 {
 	int frames[8] = { 1, 2, 3, 4, 5, 4, 3, 2 }, i = 0;
-
-	while (!_kbhit(NULL))
+	
+	while (!_kbhit())
 	{
 		for (i = 0; i < 8; i++)
 		{
+			system("cls");
 			printFish(frames[i]);
 			_sleep(FISH_FRAMERATE);
-			system("cls");
 		}
 	}
-
+	
 	clearBuffer();
 }
 
@@ -140,6 +140,7 @@ int loadProgress (void)
 void levelOne(void)
 {
 	Inv inventory;
+	inventory.FirstItem = NULL;
 	insertAtFront(&inventory, makeItem(FALSE, "gun", SHOOT));
 	roomRoom(&inventory);
 }
@@ -147,12 +148,14 @@ void levelOne(void)
 void levelTwo(void)
 {
 	Inv inventory;
+	inventory.FirstItem = NULL;
 	roomCar(&inventory);
 }
 
 void levelThree(void)
 {
 	Inv inventory;
+	inventory.FirstItem = NULL;
 	roomLake(&inventory);
 }
 
@@ -173,6 +176,7 @@ Node *makeNode(Item newItem)
 Node *insertAtFront(Inv *inventory, Item newitem)
 {
 	Node *pNew = makeNode(newitem);
+	pNew->pNext = NULL;
 
 	if (pNew != NULL)
 	{
@@ -191,7 +195,7 @@ void printInv(const Inv *inventory)
 
 	puts("You are holding:");
 
-	while (pCur != NULL && pCur != 0xcccccccc)
+	while (pCur != NULL)
 	{
 		if (pCur->item.used == FALSE)
 			printf("%s\n", pCur->item.name);
@@ -204,7 +208,7 @@ Bool searchInv (char *item, const Inv *inventory)
 {
 	Node *pCur = inventory->FirstItem;
 
-	while (pCur != NULL && pCur != 0xcccccccc)
+	while (pCur != NULL)
 	{
 		if (caseCompare(item, pCur->item.name) && pCur->item.used == FALSE)
 			return TRUE;
@@ -236,15 +240,16 @@ void runIntro(void)
 
 void runIntermission(void)
 {
+	//the way to do this would be to make the line pos a variable that is passed into every string as a reference
 	type("Energizing the lamp with your mastery of electricity, you light up the hallway. It turns out that dad's shadow is really just the shadow of a fork that has been stuck in the top of the stairs.", TDEL);
-	typeNoBreak("You walk over to the fork, but you accidentally trip over it, breaking up to or including 206 bones during your tumble down the stairs.", TDEL);
+	type("You walk over to the fork, but you accidentally trip over it, breaking up to or including 206 bones during your tumble down the stairs.", TDEL);
 	type("Your mangled body falls directly into the clutches of dad.", TDEL * 2);
 	type("\"Alright boy... it's time to go fishing.\"", TDEL * 3.5);
 	CLEAR
 	printTitle();
 	CLEAR
 	type("You come to. You can feel blood running down your face from a wound on your forehead.", TDEL);
-	typeNoBreak("Your vision focuses on the road. The car is barreling down the highway at 100 mph.", TDEL);
+	type("Your vision focuses on the road. The car is barreling down the highway at 100 mph.", TDEL);
 	type("Your dad is staring directly at you, his eyes wide and a grin plastered on his face. He doesn't need to look at the road. He's been practicing for this moment for 15 years.", TDEL * 2);
 	CLEAR;
 }
@@ -283,8 +288,11 @@ void getAction(char *noun, Verb *verb)
 		{
 			puts("Help:");
 			puts("Your best bet to solve a puzzle is to look at everything in the room.");
+			puts("Also don't forget to think outside the box. Most puzzles don't make sense.");
 			puts("Common commands: go to, use, look at...");
 			puts("Remember to include a noun with your verbs. Most actions won't work without one.");
+			puts("Most common adventure game commands DO NOT WORK in FwD2, such as i to look in inventory.");
+			puts("TYPE: \"look inventory \"");
 			puts("There are also many more that you will have to discover for yourself!");
 			*verb = POOP;
 		}
@@ -699,7 +707,7 @@ void roomHallway(Inv *inventory)
 				if (searchInv("lamp", inventory))
 				{
 					CLEAR
-					return 0;
+					return;
 				}
 				else
 					CANTDO
@@ -776,7 +784,7 @@ void roomCar(Inv *inventory)
 			if (caseCompare(noun, "gear") || caseCompare(noun, "gears") || caseCompare(noun, "shifter"))
 			{
 				CLEAR
-				return 0;
+				return;
 			}
 			else
 			{
@@ -947,7 +955,7 @@ void roomLake(Inv *inventory)
 
 	getFishing();
 	CLEAR
-	return 0;
+	return;
 }
 
 void credits(void)

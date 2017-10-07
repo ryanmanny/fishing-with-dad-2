@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <conio.h>
 
 #define SEMICOLON ;
 
@@ -84,7 +85,7 @@ void clearBuffer(void);
 //Real game logic
 void getAction(char *noun, Verb *verb);
 Bool getFishing(void);
-Bool caseCompare(char *str1, char *str2);
+Bool caseCompare(const char *str1, const char *str2);
 
 //Room functions (there might be a better way to do this but I can't think of it)
 void roomRoom(Inv *inventory);
