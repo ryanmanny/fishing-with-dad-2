@@ -12,6 +12,7 @@ More information available at http://kideatingdirt.com/fishingwithdad.html
 - added a bit more to help file
 - fixed bugs related to hardcoded pointer address checks :)
 - FISHING WITH DAD 2 REMASTERED COMING SOON
+
 1.1 - 2/7/2017
 - fixed a few grammar mistakes
 - added many missing synonyms
