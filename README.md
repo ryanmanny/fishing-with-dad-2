@@ -20,3 +20,9 @@ More information available at http://kideatingdirt.com/fishingwithdad.html
 - included blank savefile.txt in zip file
 - alluded to help function on title screen
 - new easter eggs!
+
+# Future
+Still needs some portability updates, such as replacing system("cls") and sleep() functions.
+
+I will eventually rewrite this game from the ground up in C++, with a better language parsing
+system, less obscure puzzle solutions, fewer hard-coded solutions and more dad!
